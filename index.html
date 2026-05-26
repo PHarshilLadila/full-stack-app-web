@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Velmora Vendor Dashboard">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Velmora Vendor">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png" />
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-messaging-compat.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCT7twkCGudSOiePsgsSlsDZgWKHT3gxG8",
+      authDomain: "full-stack-app-92e61.firebaseapp.com",
+      projectId: "full-stack-app-92e61",
+      storageBucket: "full-stack-app-92e61.firebasestorage.app",
+      messagingSenderId: "33258933921",
+      appId: "1:33258933921:web:ebf26cb174cc3f4f7ceae0",
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Get messaging instance
+    const messaging = firebase.messaging();
+
+    // ✅ IMPORTANT: Add your VAPID key here (from Firebase Console)
+    const VAPID_KEY = "BGgbsIfoewRAqUEXIU7UFbgdWig__lVBmcf6oBNQrHWzSgGefNPT5wwLLE6gxgSd2RnfqMOwPJV-nh5JMCxICRI";  // <-- REPLACE THIS!
+
+    window._fcmToken = null;
+
+    async function requestNotificationPermission() {
+      try {
+        console.log('📱 Requesting notification permission...');
+
+        if (!('Notification' in window)) {
+          console.log('❌ Browser does not support notifications');
+          return;
+        }
+
+        const permission = await Notification.requestPermission();
+        console.log('✅ Permission status:', permission);
+
+        if (permission === 'granted') {
+          try {
+            // ✅ Get token with VAPID key
+            const token = await messaging.getToken({
+              vapidKey: VAPID_KEY
+            });
+
+            if (token) {
+              console.log('✅ Real FCM Token:', token);
+              window._fcmToken = token;
+              localStorage.setItem('web_fcm_token', token);
+            } else {
+              console.error('❌ No token received');
+            }
+          } catch (error) {
+            console.error('❌ Error getting token:', error);
+          }
+        }
+      } catch (error) {
+        console.error('❌ Error:', error);
+      }
+    }
+
+    // Handle foreground messages
+    messaging.onMessage((payload) => {
+      console.log('📨 Message received:', payload);
+      if (Notification.permission === 'granted') {
+        const notification = new Notification(payload.notification.title, {
+          body: payload.notification.body,
+          icon: '/favicon.png',
+          data: payload.data
+        });
+        notification.onclick = () => window.focus();
+      }
+    });
+
+    messaging.onTokenRefresh = async () => {
+      const newToken = await messaging.getToken({ vapidKey: VAPID_KEY });
+      console.log('🔄 Token refreshed:', newToken);
+      window._fcmToken = newToken;
+      localStorage.setItem('web_fcm_token', newToken);
+    };
+
+    window.addEventListener('load', () => {
+      console.log('🚀 Page loaded...');
+      setTimeout(requestNotificationPermission, 1000);
+    });
+
+    // Service Worker registration
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/firebase-messaging-sw.js')
+        .then(reg => console.log('✅ Service Worker registered:', reg.scope))
+        .catch(err => console.error('❌ Service Worker failed:', err));
+    }
+  </script>
+
+  <title>Velmora Vendor</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+
+</html>
