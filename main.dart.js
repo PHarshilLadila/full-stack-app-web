@@ -50139,12 +50139,13 @@ return A.ag(B.dj,A.aA(A.a([p,B.nh,A.X("ID: "+r,j,B.av,j,A.a9(j,j,B.bI,j,j,j,j,j,
 case 1:s=k.b[b]
 r=k.d
 q=r?18:22
-p=k.c.d
-o=p.b
-q=A.aRO(A.W(B.d.ag(25.5),B.v.m()>>>16&255,B.v.m()>>>8&255,B.v.m()&255),A.X(o[0].toUpperCase(),j,j,j,B.a6K,j,j),q)
-o=A.X(o,j,B.av,j,A.a9(j,j,B.aE,j,j,j,j,j,j,j,j,r?11:13,j,j,B.a9,j,j,!0,j,j,j,j,j,j,j,j),j,j)
+p=A.W(B.d.ag(25.5),B.v.m()>>>16&255,B.v.m()>>>8&255,B.v.m()&255)
+o=k.c.d
+n=o.b
+q=A.aRO(p,A.X(n.length!==0?n[0].toUpperCase():"?",j,j,j,B.a6K,j,j),q)
+p=A.X(n,j,B.av,j,A.a9(j,j,B.aE,j,j,j,j,j,j,j,j,r?11:13,j,j,B.a9,j,j,!0,j,j,j,j,j,j,j,j),j,j)
 n=t.p
-return A.ag(B.dj,A.aX(A.a([q,B.an,A.c_(A.aA(A.a([o,B.b3,A.X(p.d,j,B.av,j,A.a9(j,j,B.bI,j,j,j,j,j,j,j,j,r?9:11,j,j,j,j,j,!0,j,j,j,j,j,j,j,j),j,j)],n),B.A,B.at,B.j),1)],n),B.o,B.m,B.j,j),B.i,j,j,j,j,j,j,B.cn,j,j,s)
+return A.ag(B.dj,A.aX(A.a([q,B.an,A.c_(A.aA(A.a([p,B.b3,A.X(o.d,j,B.av,j,A.a9(j,j,B.bI,j,j,j,j,j,j,j,j,r?9:11,j,j,j,j,j,!0,j,j,j,j,j,j,j,j),j,j)],n),B.A,B.at,B.j),1)],n),B.o,B.m,B.j,j),B.i,j,j,j,j,j,j,B.cn,j,j,s)
 case 2:s=k.b[b]
 r=k.c.c.length
 return A.ag(B.Q,A.X(""+r+" Items",j,j,j,A.a9(j,j,B.bc,j,j,j,j,j,j,j,j,k.d?11:13,j,j,B.y,j,j,!0,j,j,j,j,j,j,j,j),j,j),B.i,j,j,j,j,j,j,B.cC,j,j,s)
